@@ -1,0 +1,27 @@
+#!/bin/bash
+source_host=""
+source_db=$MYSQL_ENV_MYSQL_DATABASE
+source_user="root"
+source_pass=""
+
+while getopts "h:u:p:d:" opt; do
+    case "$opt" in
+        h)
+            source_host=$OPTARG
+            ;;
+        u)
+            source_user=$OPTARG
+            ;;
+        p)
+            source_pass=$OPTARG
+            ;;
+        d)
+            source_db=$OPTARG
+            ;;
+    esac
+done
+
+mysqldump -h"$source_host" -u"$source_user" -p"$source_pass" \
+    --skip-lock-tables "$source_db" | \
+    mysql -h"$MYSQL_PORT_3306_TCP_ADDR" -P"$MYSQL_PORT_3306_TCP_PORT" \
+    -uroot -p"$MYSQL_ENV_MYSQL_ROOT_PASSWORD" "$MYSQL_ENV_MYSQL_DATABASE"
