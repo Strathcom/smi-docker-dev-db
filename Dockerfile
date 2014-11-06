@@ -7,4 +7,4 @@ ADD connect /usr/local/bin/connect
 # committed to the image
 RUN mkdir /var/lib/mysql_committed
 RUN sed -i 's/\/var\/lib\/mysql/\/var\/lib\/mysql_committed/g' /entrypoint.sh
-CMD ["mysqld", "--datadir=/var/lib/mysql_committed", "--user=mysql"]
+CMD ["mysqld", "--datadir=/var/lib/mysql_committed", "--user=mysql", "--innodb-buffer-pool-size", "32000000"]
